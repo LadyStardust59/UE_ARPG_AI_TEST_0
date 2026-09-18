@@ -1,0 +1,23 @@
+# Generated Unreal Engine and IDE files
+/Binaries/
+/DerivedDataCache/
+/Intermediate/
+/Saved/
+/.vs/
+/.idea/
+/.codex/
+*.sln
+*.slnx
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+Plugins/**/Intermediate/
+Plugins/**/DerivedDataCache/
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
