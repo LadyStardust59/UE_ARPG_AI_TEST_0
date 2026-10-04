@@ -82,11 +82,15 @@ Say ("        save point = " + $hash) "Green"
 
 # ---- 5. push ----
 Say "  [3/4] Uploading to GitHub (large files may take a while)..." "Gray"
-git push origin main 2>&1 | ForEach-Object { Say ("        " + $_) "DarkGray" }
+$pushOut = & git push origin main --progress 2>&1
+$pushCode = $LASTEXITCODE
+# git writes progress to stderr; show only the meaningful last lines
+$pushOut | Where-Object { "$_" -notmatch "^(remote: )?(Resolving|Counting|Compressing|Writing|Enumerating|Total)" } |
+    Select-Object -Last 8 | ForEach-Object { Say ("        " + $_) "DarkGray" }
 
 Write-Host ""
 Line
-if ($LASTEXITCODE -eq 0) {
+if ($pushCode -eq 0) {
     Say "  [4/4] Upload OK." "Green"
     Write-Host ""
     Say "  BACKUP COMPLETE" "Green"
@@ -102,6 +106,7 @@ if ($LASTEXITCODE -eq 0) {
     Say "    3) Remote changed -> tell the AI assistant, do not force push." "DarkGray"
     Write-Host ""
     Say "  IMPORTANT: your work is already saved on this computer. Nothing is lost." "Green"
+    Say "  Large uploads often need 2-3 tries; just double-click again." "Green"
 }
 Line
 Write-Host ""
